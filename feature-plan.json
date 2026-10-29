@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "current_feature": "project-setup",
+  "features": [
+    {
+      "id": "project-setup",
+      "title": "Project Setup & Skeleton",
+      "status": "done",
+      "acceptance": [
+        "FastAPI backend runs with health endpoint",
+        "React frontend builds and serves",
+        "Docker compose works for local development",
+        "Basic project structure with backend/frontend separation"
+      ],
+      "implementation": [
+        "backend/app/main.py",
+        "backend/app/core/config.py",
+        "backend/app/db/session.py",
+        "backend/app/db/base.py",
+        "backend/app/api/__init__.py",
+        "frontend/src/main.tsx",
+        "frontend/src/App.tsx",
+        "frontend/src/components/Layout.tsx",
+        "frontend/src/pages/Dashboard.tsx",
+        "docker-compose.yml"
+      ],
+      "tests": [
+        "backend: health endpoint returns 200",
+        "frontend: npm run build succeeds"
+      ]
+    },
+    {
+      "id": "agent-registry",
+      "title": "Agent Registry API",
+      "status": "planned",
+      "acceptance": [
+        "CRUD endpoints for agents",
+        "Agent metadata storage (name, description, version, config)",
+        "List/filter agents"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "agent-execution",
+      "title": "Agent Execution Engine",
+      "status": "planned",
+      "acceptance": [
+        "Run agent with input payload",
+        "Stream execution logs",
+        "Track execution status/history"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "workspace-management",
+      "title": "Workspace & Project Management",
+      "status": "planned",
+      "acceptance": [
+        "Create/list workspaces",
+        "Projects within workspaces",
+        "Agent assignments to projects"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "ui-dashboard",
+      "title": "Dashboard UI",
+      "status": "planned",
+      "acceptance": [
+        "Agent list view",
+        "Execution history view",
+        "Workspace/project navigation"
+      ],
+      "implementation": [],
+      "tests": []
+    }
+  ]
+}
