@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "project-setup",
+  "current_feature": "agent-registry",
   "features": [
     {
       "id": "project-setup",
@@ -32,14 +32,24 @@
     {
       "id": "agent-registry",
       "title": "Agent Registry API",
-      "status": "planned",
+      "status": "done",
       "acceptance": [
         "CRUD endpoints for agents",
         "Agent metadata storage (name, description, version, config)",
         "List/filter agents"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "backend/app/models/agent.py",
+        "backend/app/schemas/agent.py",
+        "backend/app/api/agents.py",
+        "backend/app/api/__init__.py",
+        "backend/app/db/__init__.py",
+        "backend/tests/test_agents.py",
+        "backend/tests/conftest.py"
+      ],
+      "tests": [
+        "backend: all 11 agent CRUD tests pass"
+      ]
     },
     {
       "id": "agent-execution",

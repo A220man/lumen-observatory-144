@@ -1,10 +1,15 @@
 from fastapi import APIRouter
+from app.api.agents import router as agents_router
 
 api_router = APIRouter()
+
+api_router.include_router(agents_router)
+
 
 @api_router.get("/health")
 async def health_check():
     return {"status": "ok", "service": "lumen-observatory-api"}
+
 
 @api_router.get("/")
 async def root():

@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-project-setup
+agent-registry
 
 ## Roadmap
 
@@ -24,12 +24,16 @@ Tests: `backend: health endpoint returns 200`, `frontend: npm run build succeeds
 
 ### agent-registry — Agent Registry API
 
-Status: planned
+Status: done
 
 Acceptance:
 - CRUD endpoints for agents
 - Agent metadata storage (name, description, version, config)
 - List/filter agents
+
+Implementation: `backend/app/models/agent.py`, `backend/app/schemas/agent.py`, `backend/app/api/agents.py`, `backend/app/api/__init__.py`, `backend/app/db/__init__.py`, `backend/tests/test_agents.py`, `backend/tests/conftest.py`
+
+Tests: `backend: all 11 agent CRUD tests pass`
 
 ### agent-execution — Agent Execution Engine
 
