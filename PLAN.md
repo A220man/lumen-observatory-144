@@ -4,7 +4,7 @@ Each round completes one feature or repair. Future items are planned, not implem
 
 ## Current round
 
-agent-registry
+agent-execution
 
 ## Roadmap
 
@@ -37,12 +37,16 @@ Tests: `backend: all 11 agent CRUD tests pass`
 
 ### agent-execution — Agent Execution Engine
 
-Status: planned
+Status: in_progress
 
 Acceptance:
 - Run agent with input payload
 - Stream execution logs
 - Track execution status/history
+
+Implementation: `backend/app/models/execution.py`, `backend/app/schemas/execution.py`, `backend/app/api/executions.py`, `backend/app/api/__init__.py`, `backend/app/db/__init__.py`, `backend/app/models/__init__.py`
+
+Tests: `backend: execution CRUD tests pass (pending)`
 
 ### workspace-management — Workspace & Project Management
 

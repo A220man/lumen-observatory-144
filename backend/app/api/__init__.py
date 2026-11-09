@@ -1,9 +1,10 @@
-from fastapi import APIRouter
 from app.api.agents import router as agents_router
+from app.api.executions import router as executions_router
 
 api_router = APIRouter()
 
 api_router.include_router(agents_router)
+api_router.include_router(executions_router)
 
 
 @api_router.get("/health")

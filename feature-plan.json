@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "current_feature": "agent-registry",
+  "current_feature": "agent-execution",
   "features": [
     {
       "id": "project-setup",
@@ -54,14 +54,23 @@
     {
       "id": "agent-execution",
       "title": "Agent Execution Engine",
-      "status": "planned",
+      "status": "in_progress",
       "acceptance": [
         "Run agent with input payload",
         "Stream execution logs",
         "Track execution status/history"
       ],
-      "implementation": [],
-      "tests": []
+      "implementation": [
+        "backend/app/models/execution.py",
+        "backend/app/schemas/execution.py",
+        "backend/app/api/executions.py",
+        "backend/app/api/__init__.py",
+        "backend/app/db/__init__.py",
+        "backend/app/models/__init__.py"
+      ],
+      "tests": [
+        "backend: execution CRUD tests pass (pending)"
+      ]
     },
     {
       "id": "workspace-management",
