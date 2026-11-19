@@ -16,6 +16,8 @@ from app.schemas.execution import (
     ExecutionLogResponse,
     ExecutionWithLogsResponse,
 )
+import asyncio
+from datetime import datetime
 
 router = APIRouter(prefix="/executions", tags=["executions"])
 
@@ -179,3 +181,55 @@ async def get_execution_logs(
     logs_result = await db.execute(logs_query)
     logs = logs_result.scalars().all()
     return [ExecutionLogResponse.model_validate(log) for log in logs]
+
+@router.post("/{execution_id}/run", response_model=ExecutionResponse)
+async def run_execution(
+    execution_id: UUID,
+    db: AsyncSession = Depends(get_db),
+) -> ExecutionResponse:
+    """Trigger agent execution for an existing execution record."""
+    query = select(Execution).where(Execution.id == execution_id)
+    result = await db.execute(query)
+    execution = result.scalar_one_or_none()
+    if not execution:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Execution not found",
+        )
+    if execution.status not in (ExecutionStatus.PENDING, ExecutionStatus.FAILED):
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Execution already in status {execution.status}",
+        )
+    # Simulate execution
+    execution.status = ExecutionStatus.RUNNING
+    execution.started_at = datetime.utcnow()
+    db.add(execution)
+    await db.commit()
+    await db.refresh(execution)
+    # Add start log
+    start_log = ExecutionLog(
+        execution_id=execution_id,
+        level="info",
+        message="Agent execution started",
+    )
+    db.add(start_log)
+    await db.commit()
+    # Simulate work (e.g., processing input payload)
+    await asyncio.sleep(0.5)
+    # Update execution with output and finish status
+    execution.status = ExecutionStatus.COMPLETED
+    execution.output_payload = {"result": f"Processed {execution.input_payload}"}
+    execution.completed_at = datetime.utcnow()
+    db.add(execution)
+    # Add finish log
+    finish_log = ExecutionLog(
+        execution_id=execution_id,
+        level="info",
+        message="Agent execution completed",
+    )
+    db.add(finish_log)
+    await db.commit()
+    await db.refresh(execution)
+    return execution
+
