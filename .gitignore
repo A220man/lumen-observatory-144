@@ -54,3 +54,4 @@ docker-compose.override.yml
 *.sqlite3-shm
 .turbo/
 **/data/media/
+.venv*/

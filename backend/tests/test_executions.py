@@ -266,3 +266,32 @@ async def test_get_execution_logs(client: AsyncClient):
         assert "message" in log
         assert "execution_id" in log
         assert "timestamp" in log
+
+@pytest.mark.asyncio
+async def test_run_execution(client: AsyncClient):
+    # Create an agent
+    agent_payload = {"name": "Run Agent", "version": "1.0.0"}
+    agent_resp = await client.post("/api/v1/agents", json=agent_payload)
+    agent_id = agent_resp.json()["id"]
+
+    # Create an execution (should be PENDING)
+    exec_payload = {"agent_id": agent_id, "input_payload": {"query": "test"}}
+    exec_resp = await client.post("/api/v1/executions", json=exec_payload)
+    exec_id = exec_resp.json()["id"]
+
+    # Run the execution
+    response = await client.post(f"/api/v1/executions/{exec_id}/run")
+    assert response.status_code == 200
+    data = response.json()
+    # Verify execution completed and has output
+    assert data["status"] == ExecutionStatus.COMPLETED
+    assert "output_payload" in data
+    assert data["output_payload"]["result"] == "Processed {'query': 'test'}"
+    # Verify logs were added (through get logs endpoint)
+    logs_resp = await client.get(f"/api/v1/executions/{exec_id}/logs")
+    assert logs_resp.status_code == 200
+    logs = logs_resp.json()
+    assert len(logs) >= 2
+    assert any(log["message"] == "Agent execution started" for log in logs)
+    assert any(log["message"] == "Agent execution completed" for log in logs)
+
