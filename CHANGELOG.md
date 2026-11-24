@@ -1,8 +1,16 @@
 # Changelog
 
+## 1.6.0 — work-in-progress checkpoint
+
+Partial code published for continued development. Known issues: STATUS.md.
+
 ## 1.5.0 — work-in-progress checkpoint
 
 Partial code published for continued development. Known issues: STATUS.md.
+
+### Fixed
+- Fixed test_list_executions_with_status_filter to use ExecutionStatus.PENDING.value instead of enum member directly, enabling proper status filtering.
+- All 13 execution CRUD tests now pass.
 
 ## 1.4.0 — work-in-progress checkpoint
 
