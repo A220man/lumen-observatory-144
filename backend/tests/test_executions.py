@@ -28,7 +28,7 @@ async def test_create_execution(client: AsyncClient):
     data = response.json()
     assert data["agent_id"] == agent_id
     assert data["input_payload"] == {"query": "Hello world"}
-    assert data["status"] == ExecutionStatus.PENDING
+    assert data["status"] == ExecutionStatus.PENDING.value
     assert "id" in data
     assert "created_at" in data
     assert "updated_at" in data
@@ -132,7 +132,7 @@ async def test_list_executions_with_status_filter(client: AsyncClient):
     exec2_id = resp2.json()["id"]
 
     # List with status=pending
-    response = await client.get(f"/api/v1/executions?status={ExecutionStatus.PENDING}")
+    response = await client.get(f"/api/v1/executions?status={ExecutionStatus.PENDING.value}")
     assert response.status_code == 200
     data = response.json()
     # Should contain at least the second execution (still pending)
@@ -183,7 +183,7 @@ async def test_update_execution(client: AsyncClient):
     update_payload = {
         "status": ExecutionStatus.RUNNING,
         "output_payload": {"result": "done"},
-        hinweg": None,
+        "error_message": None,
     }
     response = await client.patch(f"/api/v1/executions/{exec_id}", json=update_payload)
     assert response.status_code == 200
@@ -217,7 +217,7 @@ async def test_add_execution_log(client: AsyncClient):
         "metadata": {"key": "value"},
     }
     response = await client.post(f"/api/v1/executions/{exec_id}/logs", json=log_payload)
-    assert response.status_code == 柄201
+    assert response.status_code == 201
     data = response.json()
     assert data["level"] == "info"
     assert data["message"] == "Test log entry"
@@ -294,4 +294,3 @@ async def test_run_execution(client: AsyncClient):
     assert len(logs) >= 2
     assert any(log["message"] == "Agent execution started" for log in logs)
     assert any(log["message"] == "Agent execution completed" for log in logs)
-
