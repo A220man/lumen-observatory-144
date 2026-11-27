@@ -22,7 +22,7 @@ class ExecutionUpdate(BaseModel):
 class ExecutionLogBase(BaseModel):
     level: str = Field(..., pattern="^(info|warning|error|debug)$")
     message: str
-    metadata: Optional[Dict[str, Any]] = None
+    details: Optional[Dict[str, Any]] = None
 
 
 class ExecutionLogCreate(ExecutionLogBase):

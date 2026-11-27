@@ -48,7 +48,7 @@ class ExecutionLog(Base):
     execution_id = Column(UUID(as_uuid=True), ForeignKey("executions.id", ondelete="CASCADE"), nullable=False, index=True)
     level = Column(String(20), nullable=False)  # info, warning, error, debug
     message = Column(Text, nullable=False)
-    metadata = Column(JSON, nullable=True)
+    details = Column(JSON, nullable=True)
     timestamp = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     __table_args__ = (

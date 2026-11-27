@@ -154,7 +154,7 @@ async def add_execution_log(
         execution_id=execution_id,
         level=payload.level,
         message=payload.message,
-        metadata=payload.metadata,
+        details=payload.details,
     )
     db.add(log)
     await db.commit()
